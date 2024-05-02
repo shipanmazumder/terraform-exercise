@@ -1,6 +1,6 @@
 resource "aws_key_pair" "dove-key" {
   key_name   = "dovekey"
-  public_key = file("dovkey.pub")
+  public_key = file("../dovkey.pub")
 }
 resource "aws_instance" "dove_instance" {
   ami                    = var.AMIS[var.REGION]
@@ -32,7 +32,7 @@ resource "aws_instance" "dove_instance" {
 
   connection {
     user        = var.USER
-    private_key = file("dovkey")
+    private_key = file("../dovkey")
     host        = self.public_ip
   }
 }

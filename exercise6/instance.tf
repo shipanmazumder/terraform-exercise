@@ -1,13 +1,14 @@
 resource "aws_key_pair" "dove-key" {
-  key_name   = "dovekey"
+  key_name   = "dovkey"
   public_key = file("../dovkey.pub")
 }
 resource "aws_instance" "dove_instance" {
   ami                    = var.AMIS[var.REGION]
   instance_type          = "t2.micro"
-  availability_zone      = var.ZONE
+  availability_zone      = var.ZONE1
+  subnet_id              = aws_subnet.dove-pub-1.id
   key_name               = aws_key_pair.dove-key.key_name
-  vpc_security_group_ids = ["sg-028662a162e141377"]
+  vpc_security_group_ids = [aws_security_group.my_dove_sg.id]
   tags = {
     Name    = "Dove Instance"
     Project = "Dove"
