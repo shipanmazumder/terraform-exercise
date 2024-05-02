@@ -29,6 +29,7 @@ resource "aws_instance" "dove_instance" {
     command = "echo ${self.private_ip} >> private_ips.txt"
   }
 
+
   connection {
     user        = var.USER
     private_key = file("dovkey")
