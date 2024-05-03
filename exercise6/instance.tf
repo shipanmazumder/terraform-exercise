@@ -13,7 +13,6 @@ resource "aws_instance" "dove_instance" {
     Name    = "Dove Instance"
     Project = "Dove"
   }
-
   provisioner "file" {
     source      = "web.sh"
     destination = "/tmp/web.sh"
@@ -36,4 +35,18 @@ resource "aws_instance" "dove_instance" {
     private_key = file("../dovkey")
     host        = self.public_ip
   }
+}
+
+resource "aws_ebs_volume" "vol_4_dove" {
+  availability_zone = var.ZONE1
+  size              = 4
+
+  tags = {
+    Name = "extra-vol_4_dove"
+  }
+}
+resource "aws_volume_attachment" "ebs_att" {
+  device_name = "/dev/sdh"
+  volume_id   = aws_ebs_volume.vol_4_dove.id
+  instance_id = aws_instance.dove_instance.id
 }
